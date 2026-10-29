@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oilaviy Shajara</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<style>
+:root{--bg:#f7f0e1;--paper:#fffaf0;--ink:#3b2f22;--mute:#8a7760;--line:#b79b6a;--gold:#b8893b;--rose:#a65d57;--sage:#6b7f6a;--shadow:0 2px 8px rgba(80,55,20,.15);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1812;--paper:#2a2319;--ink:#f0e4cc;--mute:#b6a285;--line:#7d6a48;--gold:#d4a95a;--shadow:0 2px 10px rgba(0,0,0,.5);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d1812;--paper:#2a2319;--ink:#f0e4cc;--mute:#b6a285;--line:#7d6a48;--gold:#d4a95a;--shadow:0 2px 10px rgba(0,0,0,.5);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:radial-gradient(circle at 50% 0,var(--paper),var(--bg) 70%) fixed;color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;min-height:100vh}
+.disp{font-family:'Playfair Display',Georgia,serif}
+.orn{display:flex;align-items:center;gap:12px;justify-content:center;color:var(--gold)}
+.orn::before,.orn::after{content:"";height:1px;width:60px;background:var(--line)}
+/* Daraxt chiziqlari */
+.tree-scroll{overflow-x:auto;padding:8px 12px 24px}
+.tree{width:max-content;min-width:100%}
+.tree ul{display:flex;justify-content:center;padding-top:28px;position:relative}
+.tree>ul{padding-top:0}
+.tree li{list-style:none;text-align:center;position:relative;padding:28px 6px 0}
+.tree>ul>li{padding-top:0}
+.tree li::before,.tree li::after{content:"";position:absolute;top:0;right:50%;border-top:2px solid var(--line);width:50%;height:28px}
+.tree li::after{right:auto;left:50%;border-left:2px solid var(--line)}
+.tree>ul>li::before,.tree>ul>li::after{display:none}
+.tree li:only-child::before,.tree li:only-child::after{display:none}
+.tree li:only-child{padding-top:28px}
+.tree li:first-child::before,.tree li:last-child::after{border:0 none}
+.tree li:last-child::before{border-right:2px solid var(--line);border-radius:0 8px 0 0}
+.tree li:first-child::after{border-radius:8px 0 0 0}
+.tree ul ul::before{content:"";position:absolute;top:0;left:50%;border-left:2px solid var(--line);height:28px}
+/* Kartochka */
+.couple{display:inline-flex;align-items:center}
+.ring{color:var(--gold);font-size:15px;margin:0 5px}
+.card{width:108px;padding:10px 6px 8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);transition:.2s;position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink);cursor:pointer}
+.card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:0 8px 18px rgba(80,55,20,.25);outline:none}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:'Playfair Display',Georgia,serif;color:#fff;background:var(--sage);font-size:18px}
+.f .av{background:var(--rose)}
+.dead .av{background:#8d8372}
+.dead{opacity:.9}
+.card b{font-size:16px;line-height:1.1;font-weight:700;overflow-wrap:anywhere}
+.card i{font-size:13px;color:var(--mute);font-style:normal}
+.me{border:2px solid var(--gold);box-shadow:0 0 0 4px rgba(184,137,59,.22),var(--shadow)}
+.badge{position:absolute;top:-9px;right:-6px;background:var(--gold);color:#fff;font-size:11px;border-radius:9px;padding:0 7px}
+/* Modal */
+.mbox{background:var(--paper);border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.35);animation:pop .2s ease}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+.row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px dashed var(--line);font-size:17px}
+.row span:first-child{color:var(--mute)}
+.row span:last-child{text-align:right;font-weight:700}
+.zb{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--paper);font-size:22px;color:var(--ink)}
+</style>
+</head>
+<body>
+<header class="text-center pt-10 pb-4 px-4">
+  <p class="orn text-xs uppercase tracking-[.3em]">Oilaviy meros</p>
+  <h1 class="disp text-4xl md:text-5xl mt-2 font-bold">Oilaviy Shajara</h1>
+  <p class="mt-2" style="color:var(--mute)">Ajdodlardan avlodlarga — kartochkaga bosing</p>
+  <div class="flex items-center justify-center gap-3 mt-4">
+    <button class="zb" id="zo" aria-label="Kichraytirish">−</button>
+    <span class="text-sm" style="color:var(--mute)">† — hayot emas</span>
+    <button class="zb" id="zi" aria-label="Kattalashtirish">+</button>
+  </div>
+</header>
+<main id="app" class="pb-16"></main>
+
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background:rgba(40,28,14,.55)">
+  <div class="mbox w-full max-w-sm rounded-2xl p-6 relative" role="dialog" aria-modal="true">
+    <button id="x" class="absolute top-2 right-4 text-3xl" aria-label="Yopish">×</button>
+    <div id="mc"></div>
+  </div>
+</div>
+
+<script>
+/* ====== MA’LUMOTLAR ======
+   A(id, ism, jins('m'/'f'), tugʻilgan yil, oy, kun, vafot(1/0), "menga kim boʻladi")
+   Oy/kun yoʻq boʻlsa 0 yozing. Yil nomaʼlum boʻlsa null yozing. */
+const P={};
+const A=(id,n,g,by,bm,bd,dead,rel)=>P[id]={id,n,g,by,bm,bd,dead,rel};
+// --- Mamurjon tomoni
+A('abdurasul','Abdurasul','m',1920,0,0,1,'Katta bobom (bobomning otasi)');
+A('gulsinoy','Gulsinoy','f',1922,0,0,1,'Katta buvim (bobomning onasi)');
+A('abduxoliq','Abduxoliq','m',1951,0,0,1,'Bobomning akasi');
+A('maxfirat','Maxfiratxon','f',1954,0,0,1,'Bobomning opasi');
+A('raxmonjon','Raxmonjon','m',1958,0,0,0,'Bobomning akasi');
+A('mamurjon','Mamurjon','m',1961,7,11,0,'Bobom (dadamning otasi)');
+// --- Soraxon tomoni
+A('nishonboy','Nishonboy','m',1896,0,0,1,'Buvimning bobosi (katta buvimning otasi)');
+A('ergashoy','Ergashoy','f',1920,0,0,1,'Buvimning buvisi (katta buvimning onasi)');
+A('xidoyat','Xidoyatxon','f',1935,0,0,1,'Buvimning xolasi (katta buvimning opasi)');
+A('inobat','Inobatxon','f',1937,0,0,1,'Buvimning xolasi (katta buvimning opasi)');
+A('ogiloy','Oʻgʻiloy','f',1939,0,0,0,'Katta buvim (buvimning onasi)');
+A('esonjon','Esonjon','m',1935,0,0,1,'Katta bobom (buvimning otasi)');
+A('mamaroziq','Mamaroziq','m',1941,0,0,0,'Buvimning togʻasi (katta buvimning ukasi)');
+A('anorxon','Anorxon','f',1953,0,0,0,'Buvimning xolasi (katta buvimning singlisi)');
+A('abdusalim','Abdusalim','m',1957,0,0,0,'Buvimning togʻasi (katta buvimning ukasi)');
+A('abdurahim','Abdurahim','m',1959,0,0,0,'Buvimning togʻasi (katta buvimning ukasi)');
+A('ominaxon','Ominaxon','f',1964,0,0,0,'Buvimning xolasi (katta buvimning singlisi)');
+A('bahodir','Bahodir','m',1957,0,0,1,'Buvimning akasi');
+A('motabar','Moʻtabar','f',1960,0,0,1,'Buvimning opasi');
+A('soraxon','Soraxon','f',1963,9,10,0,'Buvim (dadamning onasi)');
+A('bahtiyor','Bahtiyor','m',1966,0,0,0,'Buvimning ukasi');
+A('muqimjon','Muqimjon','m',1968,4,28,0,'Buvimning ukasi');
+A('zuhriddin','Zuhriddin','m',1970,0,0,0,'Buvimning ukasi');
+A('zubayda','Zubayda','f',1973,0,0,0,'Buvimning singlisi');
+A('hadiya','Hadiyaxon','f',1975,0,0,0,'Buvimning singlisi');
+// --- Muslimaxon (oyim) tomoni  ✏️ YILLARNI SHU YERDA TOʻLDIRING: null oʻrniga 1960 kabi yil yozing
+A('nurm1','Nurmuhammad','m',null,0,0,0,'Bobom (oyimning otasi)');            // ✏️
+A('lobarxon','Lobarxon','f',null,0,0,0,'Buvim (oyimning onasi)');             // ✏️
+A('nomonjon','Noʻmonjon','m',null,0,0,0,'Togʻam (oyimning akasi)');           // ✏️
+A('sabohat','Sabohatxon','f',null,0,0,0,'Xolam (oyimning opasi)');            // ✏️
+A('muhtasar','Muhtasarxon','f',null,0,0,0,'Xolam (oyimning opasi)');         // ✏️
+A('nozimjon','Nozimjon','m',null,0,0,0,'Togʻam (oyimning akasi)');            // ✏️
+A('muslima','Muslimaxon','f',1986,9,2,0,'Oyim');
+// --- Asosiy avlod
+A('sherali','Sherali','m',1984,4,15,0,'Dadam');
+A('saydali','Saydali','m',1987,2,27,0,'Amakim (otamning ukasi)');
+A('feruza','Feruzaxon','f',1992,11,3,0,'Yengam (amakimning rafiqasi)');
+A('sevara','Sevara','f',1989,3,22,0,'Ammam (otamning singlisi)');
+A('nodir','Nodirjon','m',1985,4,6,0,'Ammamning eri');
+A('sayyora','Sayyora','f',1991,9,29,0,'Ammam (otamning singlisi)');
+A('muhsin','Muhsinjon','m',1990,0,0,0,'Ammamning eri');
+A('soliha','Soliha','f',2009,7,1,0,'Bu — siz!');
+A('sabina','Sabina','f',2011,4,8,0,'Singlim');
+A('suhrobbek','Suhrobbek','m',2013,4,1,0,'Ukam');
+A('sadiya','Sadiyaxon','f',2025,8,11,0,'Singlim');
+const am='Amakivachcham (amakimning farzandi)', amm='Ammavachcham (ammamning farzandi)';
+A('mohinur','Mohinur','f',2016,6,4,0,am);
+A('saidnur','Saidnur','m',2019,4,27,0,am);
+A('muhammadiso','Muhammadiso','m',2024,2,22,0,am);
+A('temurmalik','Temurmalik','m',2013,2,14,0,amm);
+A('yoqut','Yoqutxon','f',2015,1,27,0,amm);
+A('bilol','Muhammadbilol','m',2025,5,2,0,amm);
+A('yusuf','Muhammadyusuf','m',2015,9,9,0,amm);
+A('nurm2','Nurmuhammad','m',2018,10,22,0,amm);
+A('amirshoh','Amirshoh','m',2023,3,14,0,amm);
+
+/* ====== DARAXT TUZILISHI ====== (L = yakka shaxs, U = juftlik + farzandlar) */
+const L=id=>({c:[id]}), U=(a,b,k)=>({c:[a,b],k});
+const SECTIONS=[
+ {t:'Mamurjon bobomning ildizi',s:'Abdurasul va Gulsinoy avlodlari',
+  n:U('abdurasul','gulsinoy',[L('abduxoliq'),L('maxfirat'),L('raxmonjon'),L('mamurjon')])},
+ {t:'Soraxon buvimning ildizi',s:'Nishonboy va Ergashoy avlodlari',
+  n:U('nishonboy','ergashoy',[L('xidoyat'),L('inobat'),
+    U('ogiloy','esonjon',[L('bahodir'),L('motabar'),L('soraxon'),L('bahtiyor'),L('muqimjon'),L('zuhriddin'),L('zubayda'),L('hadiya')]),
+    L('mamaroziq'),L('anorxon'),L('abdusalim'),L('abdurahim'),L('ominaxon')])},
+ {t:'Muslimaxon oyimning ildizi',s:'Nurmuhammad va Lobarxon avlodlari',
+  n:U('nurm1','lobarxon',[L('nomonjon'),L('sabohat'),L('muhtasar'),L('nozimjon'),L('muslima')])},
+ {t:'Asosiy shajara',s:'Mamurjon va Soraxon avlodlari',
+  n:U('mamurjon','soraxon',[
+    U('sherali','muslima',[L('soliha'),L('sabina'),L('suhrobbek'),L('sadiya')]),
+    U('saydali','feruza',[L('mohinur'),L('saidnur'),L('muhammadiso')]),
+    U('sevara','nodir',[L('temurmalik'),L('yoqut'),L('bilol')]),
+    U('sayyora','muhsin',[L('yusuf'),L('nurm2'),L('amirshoh')])])}
+];
+const LINK={mamurjon:1,soraxon:1,muslima:1};
+
+/* Ota-ona, juft, farzandlarni avtomatik aniqlash */
+function walk(n){
+  if(n.c[1]){P[n.c[0]].sp=n.c[1];P[n.c[1]].sp=n.c[0]}
+  if(n.k){const kn=n.k.map(x=>P[x.c[0]].n);n.c.forEach(i=>P[i].kids=kn);
+    n.k.forEach(x=>{P[x.c[0]].par=n.c;walk(x)})}
+}
+SECTIONS.forEach(s=>walk(s.n));
+
+const card=(id,leaf)=>{const p=P[id];
+  return `<button class="card ${p.g} ${p.dead?'dead':''} ${id==='soliha'?'me':''}" data-id="${id}">
+  ${leaf&&LINK[id]?'<span class="badge">↓</span>':''}<span class="av">${p.n[0]}</span><b>${p.n}</b>
+  <i>${p.by||'19__'}${p.dead?' †':''}</i></button>`};
+const node=n=>`<li><div class="couple">${n.c.map((id,i)=>(i?'<span class="ring">♥</span>':'')+card(id,n.c.length===1)).join('')}</div>${n.k?`<ul>${n.k.map(node).join('')}</ul>`:''}</li>`;
+
+document.getElementById('app').innerHTML=SECTIONS.map(s=>`
+ <section class="mt-10"><div class="text-center px-4">
+  <h2 class="disp text-2xl font-bold">${s.t}</h2><p class="orn text-sm mt-1">${s.s}</p></div>
+  <div class="tree-scroll mt-4"><div class="tree"><ul>${node(s.n)}</ul></div></div></section>`).join('');
+
+/* Modal */
+const OY=['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentyabr','oktyabr','noyabr','dekabr'];
+const now=new Date();
+function ageText(p){
+  if(p.dead)return 'Vafot etgan';
+  if(!p.by)return '—';
+  const Y=now.getFullYear(),M=now.getMonth()+1,D=now.getDate();
+  if(!p.bm)return `~${Y-p.by} yosh`;
+  const tm=(Y-p.by)*12+(M-p.bm)-(p.bd&&D<p.bd?1:0);
+  return tm<24?`${tm} oylik`:`${Math.floor(tm/12)} yosh`;
+}
+const birthText=p=>!p.by?'19__ (kiritilmagan)':p.bm?`${p.by}-yil ${p.bd}-${OY[p.bm-1]}`:`${p.by}-yil`;
+const modal=document.getElementById('modal'),mc=document.getElementById('mc');
+function open(id){
+  const p=P[id],nm=i=>P[i].n;
+  const rows=[['Tugʻilgan',birthText(p)],['Yoshi',ageText(p)]];
+  if(p.par)rows.push(['Ota-onasi',p.par.map(nm).join(' va ')]);
+  if(p.sp)rows.push(['Juftligi',nm(p.sp)]);
+  if(p.kids)rows.push(['Farzandlari',p.kids.join(', ')]);
+  mc.innerHTML=`<div class="text-center ${p.g} ${p.dead?'dead':''}">
+    <span class="av mx-auto" style="width:72px;height:72px;font-size:32px">${p.n[0]}</span>
+    <h3 class="disp text-2xl font-bold mt-3">${p.n}</h3>
+    <p class="text-sm" style="color:var(--mute)">${p.dead?'† Hayot emas':'Hayot'}</p></div>
+    <div class="my-4 rounded-xl p-3 text-center" style="background:rgba(184,137,59,.14);border:1px solid var(--gold)">
+      <div class="text-xs uppercase tracking-widest" style="color:var(--mute)">Menga kim boʻladi</div>
+      <div class="disp text-lg font-bold">${p.rel}</div></div>
+    ${rows.map(r=>`<div class="row"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}`;
+  modal.classList.replace('hidden','flex');
+}
+const close=()=>modal.classList.replace('flex','hidden');
+document.getElementById('app').addEventListener('click',e=>{const b=e.target.closest('.card');if(b)open(b.dataset.id)});
+modal.addEventListener('click',e=>{if(e.target===modal)close()});
+document.getElementById('x').onclick=close;
+addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+
+/* Kattalashtirish */
+let z=1;const zoom=d=>{z=Math.min(1.4,Math.max(.6,z+d));document.querySelectorAll('.tree-scroll').forEach(e=>e.style.zoom=z)};
+document.getElementById('zi').onclick=()=>zoom(.1);document.getElementById('zo').onclick=()=>zoom(-.1);
+document.querySelectorAll('.tree-scroll').forEach(e=>e.scrollLeft=(e.scrollWidth-e.clientWidth)/2);
+</script>
+</body>
+</html>
